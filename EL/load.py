@@ -1,8 +1,15 @@
 import psycopg2
 from psycopg2 import extras
 
-from config import DB_CONFIG
+import os
 
+DB_CONFIG = {
+    "host": os.getenv("DB_HOST", "localhost"),
+    "port": os.getenv("DB_PORT", "5432"),
+    "dbname": os.getenv("DB_NAME", "f1"),
+    "user": os.getenv("DB_USER", "postgres"),
+    "password": os.getenv("DB_PASSWORD"),
+}
 def saving(races, drivers, results):
     conn: psycopg2.extensions.connection = psycopg2.connect(**DB_CONFIG, cursor_factory=extras.RealDictCursor)
     cur: psycopg2.extensions.cursor = conn.cursor()
